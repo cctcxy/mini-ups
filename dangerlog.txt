@@ -1,0 +1,17 @@
+Backend side:
+
+1. The initial idea is to avoid using any locks. Since all threads need to access the same integer for generating a new sequence number, the unique sequence number is operated by the main thread and passed to the subthread as a parameter. The main thread read the responses and spawn new threads to handle specific kinds of messages. Meanwhile, the main thread takes acknowledge information and writes a hashset to remember the acks, while the subthreads only read the hashset to ensure messages are accepted. 
+
+2. However, we tried a single socket connection with the frontend under this idea, but it does not work out. Therefore we have to spawn a thread to accept consecutive sockets from the frontend. Since handling frontend messages may also involve sending messages to the world, a mutex lock is necessary. However, since only two threads would be competing for the mutex, this will not be a big problem. 
+
+3. Currently, the job info tables are created by the backend, and the django frontend needs to use raw sql to access the database, which is not the ideal solution.
+
+4. Since we have not observed the case where UResponse sets finished = true, we do not have a handler for that case. Our schedule resends messages every 1 second, which might be too often and might be responsible for that.
+
+Frontend side:
+
+1. The django frontend access all package information by using raw sql to achieve the tables created by backend. 
+
+2. The django frontend has it's own User table which records the registered accounts. When one customer logged in, it will search the backend database and display all package which account is same as username. The account attribute in table package should be foreign key of the django table User.
+
+3. The frontend run the task email alert in a parallel thread to avoid django web runs in a blocking manner. But the interval time is set, which idealy should be changable accoriding to the simulation speed.

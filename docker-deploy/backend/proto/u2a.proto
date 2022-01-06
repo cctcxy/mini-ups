@@ -1,0 +1,53 @@
+// [START declaration]
+syntax = "proto2";
+package u2a;
+
+// [END declaration]
+
+// [START java_declaration]
+option java_multiple_files = true;
+option java_package = "com.final.protos";
+option java_outer_classname = "u2a";
+// [END java_declaration]
+
+// [START go_declaration]
+option go_package = "github.com/protocolbuffers/u2a";
+// [END go_declaration]
+
+// [START messages]
+message world_info{
+	//This is used on initiation
+	//a world is created on UPS side and 
+	//send to amazon.
+	required int64 worldid = 1;
+	//a response with worldif and result field will
+	//be returned.
+	//if the result is false, create a new world and
+	//repeat above, until true is received.
+}
+
+//all the following interaction must wait until
+//the world id is properly set up.
+message truck_arrived{
+	required int64 shipid = 1;
+	required int32 truckid = 2;
+}
+
+message deliver_started{
+	required bool status = 1;
+	required int64 shipid = 2;
+}
+
+message delivered{
+	required int64 shipid = 1;
+}
+
+message UToA{
+	optional world_info worldInfo = 1;
+	optional truck_arrived truckArrived = 2;
+	optional deliver_started deliverStarted = 3;
+	optional delivered delivered = 4;
+}
+
+
+// [END messages]

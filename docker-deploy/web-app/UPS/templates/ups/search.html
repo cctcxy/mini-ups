@@ -1,0 +1,37 @@
+{% extends "ups/base.html" %}
+
+
+
+{%block content%}
+
+{% if form.errors %}
+    <p style="color: red;">
+        Please correct the error{{ form.errors|pluralize }} below.
+    </p>
+{% endif %}
+
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    
+    <input type="submit" value="Submit"> 
+</form>
+
+{% for record in result %}
+      <article class="media content-section">
+          <div class="media-body">
+          <div class="article-metadata">
+          <p class="article-content">packageid: {{record.packageid}}</p>
+          <p class="article-content">status: {{record.status}}</p>
+          </div>
+      </article>
+{% endfor %}
+
+{% if error %}
+<h2>Search failed, reason: {{error}}</h2>
+{% endif %}
+
+
+{% endblock content %}

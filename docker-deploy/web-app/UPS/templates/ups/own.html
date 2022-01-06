@@ -1,0 +1,24 @@
+{% extends "ups/base.html" %}
+        
+
+
+  {%block content%}
+    {% for record in records %}
+      <article class="media content-section">
+          <div class="media-body">
+          <div class="article-metadata">
+            {% if record.can_redirect %}
+            <a class="article-title" href ="{% url 'redirect' record.packageid%}" style="color:#0000FF;">redirect</a>
+            {% endif %}
+            <p class="article-content">package id: {{record.packageid}}</p>
+            
+            <p class="article-content">status: {{record.status}}</p>
+            
+            <p class="article-content">destination address: ({{record.destination_x}},{{record.destination_y}})</p>
+            <!-- <p class="article-content">status: {{record.status}}</p> -->
+            <p class="article-content">description: {{record.dscription}}</p>
+          </div>
+      </article>
+    {% endfor %}
+
+  {% endblock content %}

@@ -1,0 +1,18 @@
+{% extends "ups/base.html" %}
+        
+
+
+  {%block content%}
+  <h1>Display all existing shipments info</h1>
+    
+    {% for record in records %}
+      <article class="media content-section">
+          <div class="media-body">
+          <div class="article-metadata">
+          <p class="article-content">packageid: {{record.packageid}}</p>
+          <p class="article-content">status: {{record.status}}</p>
+          </div>
+      </article>
+    {% endfor %}
+
+  {% endblock content %}

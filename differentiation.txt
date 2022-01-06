@@ -1,0 +1,10 @@
+email alert:
+1. The customer of UPS can register their account in the UPS web with their email address. 
+
+2. When their own package has received, the owner will receieve an email telling them their package has been delivered. 
+
+3. The email alert is meant to be real-time. The frontend will run this task in a parallel thread to avoid django web runs in a blocking manner.
+
+4. Every ten seconds, the front-end will search the table in database which records delivered package. The interval time can change according to the simulation speed.
+
+5. Once the frontend discovered a delivered package, it will send email to the owner of the package and then delete that record from table.

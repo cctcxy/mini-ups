@@ -1,0 +1,60 @@
+// [START declaration]
+syntax = "proto2";
+package a2u;
+
+// [END declaration]
+
+// [START java_declaration]
+option java_multiple_files = true;
+option java_package = "com.final.protos";
+option java_outer_classname = "a2u";
+// [END java_declaration]
+
+// [START go_declaration]
+option go_package = "github.com/protocolbuffers/a2u";
+// [END go_declaration]
+
+// [START messages]
+message world_info{
+    //After receiving world_info from UPS,
+    //amazon must try to connect to the world
+    //if connected successfully, response with 
+    //the world id and result true
+    //otherwise, response with the world id and 
+    //false.
+	required int64 worldid = 1;
+    required bool result = 2;
+}
+//all the following interaction must wait until
+//the world id is properly set up.
+
+message request_truck{
+	required int64 shipid = 1;
+	required int32 whnum = 2;
+
+	optional string ups_account_id = 3;
+
+    required int32 location_x = 4; //destination 
+    required int32 location_y = 5;
+
+    required string item_desc = 6;
+}
+
+message ready_for_delivery{
+	required int64 shipid = 1;
+}
+
+message change_destination{
+	required int64 shipid = 1;
+    required int32 location_x = 2; //destination 
+    required int32 location_y = 3;
+}
+
+message AToU{
+	optional world_info worldInfo = 1;
+	optional request_truck request = 2;
+	optional ready_for_delivery readyForDelivery = 3;
+	optional change_destination changeDest = 4;
+}
+
+// [END messages]
